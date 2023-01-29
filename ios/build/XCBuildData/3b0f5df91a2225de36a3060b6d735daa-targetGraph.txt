@@ -1,0 +1,13 @@
+Target dependency graph (5 targets)
+Flutter in Pods, no dependencies
+YYImage in Pods, no dependencies
+libwebp in Pods, no dependencies
+whatsapp_stickers in Pods, depends on:
+Flutter in Pods (explicit)
+YYImage in Pods (explicit)
+libwebp in Pods (explicit)
+Pods-Runner in Pods, depends on:
+Flutter in Pods (explicit)
+YYImage in Pods (explicit)
+libwebp in Pods (explicit)
+whatsapp_stickers in Pods (explicit)

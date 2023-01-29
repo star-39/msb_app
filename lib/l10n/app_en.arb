@@ -1,0 +1,26 @@
+{
+  "export": "Export",
+  "about": "About",
+  "launchFrom": "Please launch this app from @{botName}",
+  "@launchFrom": {
+    "placeholders": {
+      "botName": {
+        "type": "String",
+        "example": "moe_sticker_bot"
+      }
+    }
+  },
+  "publisher": "Publisher",
+  "publisherDesc": "Publisher of the exported WhatsApp sticker pack. By default it's @moe_sticker_bot",
+  "chooseSplit": "This sticker set has exceeded WhatsApp's limit(30) and has been split into multiple packs:",
+  "pack": "pack",
+  "openBot": "Open @{botName}",
+  "@openBot": {
+    "placeholders": {
+      "botName": {
+        "type": "String",
+        "example": "moe_sticker_bot"
+      }
+    }
+  }
+}

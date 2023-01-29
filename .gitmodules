@@ -1,0 +1,3 @@
+[submodule "plugins/whatsapp_stickers_exporter"]
+	path = plugins/whatsapp_stickers_exporter
+	url = https://github.com/star-39/whatsapp_stickers_exporter

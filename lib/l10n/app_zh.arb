@@ -1,0 +1,26 @@
+{
+  "export": "匯出",
+  "about": "關於",
+  "launchFrom": "請從 @{botName} 開啟本App",
+  "@launchFrom": {
+    "placeholders": {
+      "botName": {
+        "type": "String",
+        "example": "moe_sticker_bot"
+      }
+    }
+  },
+  "publisher": "作者",
+  "publisherDesc": "WhatsApp貼圖包作者的名字，默認是 @moe_sticker_bot",
+  "chooseSplit": "貼圖包內的貼圖數超過了WhatsApp的限制(30)，請點選要匯入的分組：",
+  "pack": "分組",
+  "openBot": "打開 @{botName}",
+  "@openBot": {
+    "placeholders": {
+      "botName": {
+        "type": "String",
+        "example": "moe_sticker_bot"
+      }
+    }
+  }
+}
