@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'microsoft'
+          distribution: 'temurin'
           cache: gradle
 
       - name: Flutter action
@@ -26,18 +26,7 @@ jobs:
         with:
           channel: "stable"
           
-      - name: Build IPA
-        run: |
-          flutter build ios --no-codesign \
-            --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp --dart-define=MSB_BOT_NAME=moe_sticker_bot
-          sh scripts/strip_payload.sh build/ios/iphoneos/Runner.app
-          cd build/ios/iphoneos/
-          mkdir Payload
-          mv Runner.app Payload/Runner.app
-          bsdtar -acvf msb_app.ipa.zip Payload
-          mv msb_app.ipa.zip msb_app.ipa
           
-
       - name: Build APK
         run: |
           mkdir -p android/app/key
@@ -52,13 +41,25 @@ jobs:
         with:
           name: msb_app.apk
           path: build/app/outputs/flutter-apk/msb_app.apk
-
-
+          
+          
+      - name: Build IPA
+        run: |
+          flutter build ios --no-codesign \
+            --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp --dart-define=MSB_BOT_NAME=moe_sticker_bot
+          sh scripts/strip_payload.sh build/ios/iphoneos/Runner.app
+          cd build/ios/iphoneos/
+          mkdir Payload
+          mv Runner.app Payload/Runner.app
+          bsdtar -acvf msb_app.ipa.zip Payload
+          mv msb_app.ipa.zip msb_app.ipa
+          
       - name: Upload a IPA Artifact
         uses: actions/upload-artifact@v3.1.2
         with:
           name: msb_app.ipa
           path: build/ios/iphoneos/msb_app.ipa
+
 
       - name: Release
         uses: softprops/action-gh-release@v1
