@@ -49,4 +49,5 @@
             <data android:scheme="whatsapp" />
         </intent>
     </queries>
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
