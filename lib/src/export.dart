@@ -15,7 +15,6 @@ import 'package:quiver/iterables.dart';
 import 'package:whatsapp_stickers_exporter/exceptions.dart';
 import 'package:whatsapp_stickers_exporter/whatsapp_stickers_exporter.dart';
 
-
 /*
 type webappStickerObject struct {
     //Sticker index with offset of +1
@@ -81,7 +80,8 @@ class StickerExportObject {
   final String file;
   final String surl;
   final String emoji;
-  const StickerExportObject({required this.file, required this.surl, required this.emoji});
+  const StickerExportObject(
+      {required this.file, required this.surl, required this.emoji});
 }
 
 class StickerExport {
@@ -90,7 +90,9 @@ class StickerExport {
   late Directory docDir;
   late Directory ssDir;
   late List<String> ssFiles;
-  List<List<List<String>>> stickerPacks = [[[]]];
+  List<List<List<String>>> stickerPacks = [
+    [[]]
+  ];
 
   StickerExport({required this.link});
 
@@ -140,7 +142,7 @@ class StickerExport {
         break;
       } catch (e) {
         if (i == 4) {
-          return -1;
+          rethrow;
         } else {
           // wait and retry
           await Future.delayed(const Duration(seconds: 2));
@@ -150,7 +152,7 @@ class StickerExport {
     }
 
     generateStickerPacks();
-    if (stickerPacks.length == 1 ) {
+    if (stickerPacks.length == 1) {
       sendToWhatsApp(0);
     } else {
       return stickerPacks.length;
