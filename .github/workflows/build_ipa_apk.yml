@@ -3,16 +3,12 @@ name: Build iOS IPA and Android APK workflow
 on: push
 
 jobs:
-  build:
-    name: Build iOS IPA and Android APK
-    runs-on: macos-12
-
+  apk:
+    name: Build Android APK
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
 
       - name: set up JDK 11
         uses: actions/setup-java@v3
@@ -25,8 +21,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          
-          
+
       - name: Build APK
         run: |
           mkdir -p android/app/key
@@ -39,10 +34,28 @@ jobs:
       - name: Upload a APK Artifact
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: msb_app.apk
+          name: apk
           path: build/app/outputs/flutter-apk/msb_app.apk
-          
-          
+
+  ipa:
+    name: Build iOS IPA
+    runs-on: macos-12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Flutter action
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
       - name: Build IPA
         run: |
           flutter build ios --no-codesign \
@@ -57,15 +70,26 @@ jobs:
       - name: Upload a IPA Artifact
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: msb_app.ipa
+          name: ipa
           path: build/ios/iphoneos/msb_app.ipa
 
+  release:
+    name: Release
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [ apk, ipa ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: release/
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           generate_release_notes: true
           files: |
-            build/app/outputs/flutter-apk/msb_app.apk
-            build/ios/iphoneos/msb_app.ipa
+            release/*/*
