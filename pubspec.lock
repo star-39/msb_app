@@ -573,10 +573,11 @@ packages:
   whatsapp_stickers_exporter:
     dependency: "direct main"
     description:
-      path: "plugins/whatsapp_stickers_exporter"
-      relative: true
-    source: path
-    version: "0.0.1"
+      name: whatsapp_stickers_exporter
+      sha256: e58b9539b9ecd935bd02e37bf42f7379c576e33150391ed4cea79558022b36a0
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   win32:
     dependency: transitive
     description:
@@ -610,5 +611,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.6 <4.0.0"
+  dart: ">=2.18.6 <3.0.0"
   flutter: ">=3.3.0"

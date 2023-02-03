@@ -178,7 +178,7 @@ class StickerExport {
     final identifier = "${wss.ssname}_${secHex(4)}";
     try {
       var handler = WhatsappStickersExporter();
-      var stickerPack = handler.addStickerPack(
+      await handler.addStickerPack(
           identifier,
           wss.sstitle,
           publisher,
