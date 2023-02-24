@@ -1,23 +1,23 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:msb_app/src/define.dart';
 import 'package:msb_app/src/settings.dart';
 import 'package:provider/provider.dart';
 import 'src/pages/home_export.dart';
 import 'src/pages/home_settings.dart';
-
+import 'src/pages/export_page.dart';
+import 'src/pages/export_done_page.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(create: (context) => SettingsProvider(),
-      child: const MyApp())
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => SettingsProvider()),
+      ChangeNotifierProvider(create: (context) => ProgressProvider()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 final _router = GoRouter(
@@ -28,11 +28,21 @@ final _router = GoRouter(
         builder: (context, state) => const MyHomePage(),
         routes: <RouteBase>[
           GoRoute(
+              path: 'done',
+              builder: (BuildContext context, GoRouterState state) {
+                return ExportDonePage(
+                    sn: state.queryParams['sn'] ?? "",
+                    err: state.queryParams['err'] ?? "",
+                    res: state.queryParams['res'] ?? "");
+              }),
+          GoRoute(
               path: ':sn',
               builder: (BuildContext context, GoRouterState state) {
                 return ExportStickerPage(
-                    sn: state.params['sn'], qid: state.queryParams['qid'], hex: state.queryParams['hex']);
-              })
+                    sn: state.params['sn'] ?? "",
+                    qid: state.queryParams['qid'] ?? "",
+                    hex: state.queryParams['hex'] ?? "");
+              }),
         ]),
     GoRoute(
         path: '/settings',
@@ -52,7 +62,6 @@ final _router = GoRouter(
         ]),
   ],
 );
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
