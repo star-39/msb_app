@@ -63,21 +63,57 @@ final _router = GoRouter(
   ],
 );
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  Brightness? _brightness;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance?.addObserver(this);
+    _brightness = WidgetsBinding.instance?.window.platformBrightness;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    if (mounted) {
+      setState(() {
+        _brightness = WidgetsBinding.instance?.window.platformBrightness;
+      });
+    }
+
+    super.didChangePlatformBrightness();
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     initSettings();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    var brightness = SchedulerBinding.instance.window.platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
+    // var brightness = SchedulerBinding.instance.window.platformBrightness;
+    bool isDarkMode = _brightness == Brightness.dark;
+    // return Consumer<SettingsProvider>(
+    //   builder: (context, provider, child) {
     return CupertinoApp.router(
         theme: CupertinoThemeData(
             brightness: isDarkMode ? Brightness.dark : Brightness.light),
         routerConfig: _router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales);
+    // },
+    // );
   }
 }
