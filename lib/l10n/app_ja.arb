@@ -12,7 +12,7 @@
   },
   "publisher": "作者",
   "publisherDesc": "WhatsAppスタンプセットに表示される作者の名前、デフォルトは @moe_sticker_bot",
-  "chooseSplit": "このセット内のスタンプ数はWhatsAppの制限を超えています、下から山分けされていたパックを選んてください：",
+  "chooseSplit": "このセット内のスタンプ数はWhatsAppの制限を超えています、下から山分けされていたパックを一つずつ選んてください：",
   "pack": "パック",
   "openBot": "@{botName} を起動",
   "@openBot": {

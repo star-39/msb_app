@@ -12,7 +12,7 @@
   },
   "publisher": "Publisher",
   "publisherDesc": "Publisher of the exported WhatsApp sticker pack. By default it's @moe_sticker_bot",
-  "chooseSplit": "This sticker set has exceeded WhatsApp's limit(30) and has been split into multiple packs:",
+  "chooseSplit": "This sticker set has exceeded WhatsApp's amount limit(30) per pack and has been split into multiple packs, please tap one by one to export all packs:",
   "pack": "pack",
   "openBot": "Open @{botName}",
   "@openBot": {

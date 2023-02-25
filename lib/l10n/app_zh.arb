@@ -12,7 +12,7 @@
   },
   "publisher": "作者",
   "publisherDesc": "WhatsApp貼圖包作者的名字，默認是 @moe_sticker_bot",
-  "chooseSplit": "貼圖包內的貼圖數超過了WhatsApp的限制(30)，請點選要匯入的分組：",
+  "chooseSplit": "貼圖包內的貼圖數量超過了WhatsApp的限制(30)，請依次點選要匯入的分組：",
   "pack": "分組",
   "openBot": "打開 @{botName}",
   "@openBot": {

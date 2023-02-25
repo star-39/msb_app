@@ -45,12 +45,12 @@ class ExportStickerPage extends StatefulWidget {
 class _ExportStickerPage extends State<ExportStickerPage> {
   @override
   void initState() {
+    Provider.of<ProgressProvider>(context, listen: false).total = 0;
+    Provider.of<ProgressProvider>(context, listen: false).progress = 0;
+    final uri = _genExportLink();
+    se = StickerExport(link: uri);
+    se?.installFromRemote(context);
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final uri = _genExportLink();
-      se = StickerExport(link: uri);
-      se?.installFromRemote(context);
-    });
   }
 
   Uri _genExportLink() {

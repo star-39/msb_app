@@ -17,6 +17,7 @@ import 'package:quiver/iterables.dart';
 // import 'package:whatsapp_stickers/whatsapp_stickers.dart';
 import 'package:whatsapp_stickers_exporter/exceptions.dart';
 import 'package:whatsapp_stickers_exporter/whatsapp_stickers_exporter.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 
 /*
 type webappStickerObject struct {
@@ -99,16 +100,27 @@ class StickerExport {
 
   StickerExport({required this.link});
 
-  fetchStickerList(Uri uri) async {
+  Future<void> fetchStickerList(Uri uri) async {
     var res = await Dio().getUri(uri);
     final Map<String, dynamic> wssMap = jsonDecode(res.data);
     wss = StickerSet.fromJson(wssMap);
   }
 
-  downloadStickers(
+  Future<void> downloadStickers(
       StickerSet wss, String targetDir, BuildContext context) async {
     final dio = Dio();
+    dio.interceptors.add(RetryInterceptor(
+      dio: dio,
+      retries: 3,
+      retryDelays: const [
+        Duration(seconds: 2),
+        Duration(seconds: 3),
+        Duration(seconds: 3),
+      ],
+    ));
+
     ssFiles = <String>[];
+    final queue = <Future>[];
 
     int i = 0;
     await dio.download(wss.ssthumb, path.join(targetDir, "thumb.png"));
@@ -117,20 +129,21 @@ class StickerExport {
       //001 002 003 ... 120 .webp
       final f = "${s.id.toString().padLeft(3, "0")}.webp";
       ssFiles.add(path.join(targetDir, f));
-      await dio.download(s.surl, path.join(targetDir, f));
-      i++;
-      Provider.of<ProgressProvider>(context, listen: false).progress = i;
+      queue.add(dio.download(s.surl, path.join(targetDir, f)).then((res) =>
+        Provider.of<ProgressProvider>(context, listen: false).progress++
+      ));
     }
+    await Future.wait(queue);
   }
 
-  Future<void> installFromRemote(
-      BuildContext context) async {
+  Future<void> installFromRemote(BuildContext context) async {
     String err = "";
     String? res;
 
     try {
       await fetchStickerList(link);
-      Provider.of<ProgressProvider>(context, listen: false).total = wss.ss.length;
+      Provider.of<ProgressProvider>(context, listen: false).total =
+          wss.ss.length;
       // provider.total = wss.ss.length;
       docDir = await getApplicationDocumentsDirectory();
       ssDir = Directory(path.join(docDir.path, 'stickers'));
