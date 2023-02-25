@@ -1,8 +1,8 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:msb_app/src/define.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 void launchTGBot() async {
   final Uri tgDeepLink = Uri.parse('tg://resolve?domain=$botName');
@@ -18,6 +18,21 @@ void launchTGBot() async {
 
 void openHomePage() async {
   final Uri uri = Uri.parse('https://github.com/star-39/moe-sticker-bot');
+  try {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } on Exception {}
+}
+
+void openDownloadLink() async {
+  late Uri uri;
+  if (Platform.isAndroid) {
+    uri = Uri.parse(
+        'https://github.com/star-39/msb_app/releases/latest/download/msb_app.apk');
+  } else {
+    uri = Uri.parse(
+        'https://github.com/star-39/msb_app/releases/latest/download/msb_app.ipa');
+  }
+
   try {
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   } on Exception {}

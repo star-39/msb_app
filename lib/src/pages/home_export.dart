@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:msb_app/src/settings.dart';
+import 'package:provider/provider.dart';
 import '../define.dart';
+import '../update.dart';
 import '../util.dart';
 import '../export.dart';
 import './home_settings.dart';
 import './export_page.dart';
+
+var updateDialogShowed = false;
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -43,18 +49,51 @@ class ExportPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Show a alert if update is available.
+    //On iOS, build is occasionally called, which will result in multiple alerts,
+    //only show once.
+    //It is actually a good thing if a user never terminate the app.
+    Future.microtask(() =>
+        checkUpdate(Provider.of<SettingsProvider>(context, listen: false))
+            .then((value) {
+          if (value && !updateDialogShowed) {
+            updateDialogShowed = true;
+            showCupertinoDialog(
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    title: Text(AppLocalizations.of(context)!.updateAvailable),
+                    content:
+                        Text(AppLocalizations.of(context)!.goToDownloadUpdate),
+                    actions: [
+                      CupertinoDialogAction(
+                        child: const Text('OK'),
+                        onPressed: () {
+                          context.pop();
+                        },
+                      )
+                    ],
+                  );
+                });
+          }
+        }));
     return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text(appName),
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text(appName),
+      ),
+      child: Center(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Text(
+          AppLocalizations.of(context)!.exportTGToWA,
         ),
-        child: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Text(AppLocalizations.of(context)!.launchFrom(botName)),
-              const SizedBox(height: 10),
-              CupertinoButton.filled(
-                onPressed: launchTGBot,
-                child: Text(AppLocalizations.of(context)!.openBot(botName)),
-              )
-            ])));
+        const SizedBox(height: 10),
+        Text(AppLocalizations.of(context)!.launchFrom(botName)),
+        const SizedBox(height: 10),
+        CupertinoButton.filled(
+          onPressed: launchTGBot,
+          child: Text(AppLocalizations.of(context)!.openBot(botName)),
+        )
+      ])),
+    );
   }
 }

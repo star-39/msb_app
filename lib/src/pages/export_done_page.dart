@@ -2,22 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:msb_app/src/export.dart';
 import 'export_page.dart';
 import 'package:whatsapp_stickers_exporter/whatsapp_stickers_exporter.dart';
 
 class ExportDonePage extends StatelessWidget {
-  final String sn;
-  final String err;
-  final String res;
-  const ExportDonePage(
-      {super.key, required this.sn, required this.err, required this.res});
+  final StickerExport se;
+  const ExportDonePage({super.key, required this.se});
 
   @override
   Widget build(BuildContext context) {
     List<Widget> children;
 
     void onPackBtnPressed(int i) {
-      se?.sendToWhatsApp(i);
+      se.sendToWhatsApp(i);
     }
 
     List<Widget> genPacksButtons(int total) {
@@ -26,20 +24,20 @@ class ExportDonePage extends StatelessWidget {
         entries.add(CupertinoButton(
             child: Text('${AppLocalizations.of(context)!.pack} ${i + 1}'),
             onPressed: () => onPackBtnPressed(i)));
-        entries.add(SizedBox(width: 5));
+        entries.add(const SizedBox(width: 5));
       }
       return entries;
     }
 
-    if (err != "") {
+    if (se.err != null) {
       children = <Widget>[
         const Icon(CupertinoIcons.xmark_circle,
             color: CupertinoColors.destructiveRed),
         const SizedBox(height: 10),
-        Text(err)
+        Text(se.err.toString())
       ];
     } else {
-      if (int.parse(res) == 0) {
+      if (se.stickerPacks.length == 1) {
         children = <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -51,7 +49,7 @@ class ExportDonePage extends StatelessWidget {
           )
         ];
       } else {
-        final entries = genPacksButtons(int.parse(res));
+        final entries = genPacksButtons(se.stickerPacks.length);
         children = <Widget>[
           const Icon(CupertinoIcons.question_circle,
               color: CupertinoColors.activeBlue),
@@ -63,10 +61,23 @@ class ExportDonePage extends StatelessWidget {
       }
     }
 
-    children.addAll(<Widget>[
-      const SizedBox(height: 10),
-      Text('sn: $sn'),
-    ]);
+    if (se.wss != null) {
+      children.addAll(<Widget>[
+        const SizedBox(height: 10),
+        Text(
+          se.wss!.ssname,
+          style: const TextStyle(fontStyle: FontStyle.italic),
+        ),
+        const SizedBox(height: 5),
+        Text(se.wss!.sstitle),
+      ]);
+    } else {
+      children.addAll(<Widget>[
+        const SizedBox(height: 10),
+        const Text('ID:'),
+        Text(se.sn),
+      ]);
+    }
 
     if (Platform.isAndroid) {
       children.addAll(<Widget>[
@@ -78,8 +89,8 @@ class ExportDonePage extends StatelessWidget {
     }
 
     return CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text("Export Done"),
+        navigationBar: CupertinoNavigationBar(
+          middle: Text(AppLocalizations.of(context)!.exportToWhatsApp),
         ),
         child: Padding(
             padding: const EdgeInsets.all(10),

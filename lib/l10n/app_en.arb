@@ -12,7 +12,7 @@
   },
   "publisher": "Publisher",
   "publisherDesc": "Publisher of the exported WhatsApp sticker pack. By default it's @moe_sticker_bot",
-  "chooseSplit": "This sticker set has exceeded WhatsApp's amount limit(30) per pack and has been split into multiple packs, please tap one by one to export all packs:",
+  "chooseSplit": "This sticker set has exceeded WhatsApp's amount limit(30) per pack and has been split into multiple packs:",
   "pack": "pack",
   "openBot": "Open @{botName}",
   "@openBot": {
@@ -23,5 +23,10 @@
       }
     }
   },
-  "openWhatsApp": "Open WhatsApp"
+  "openWhatsApp": "Open WhatsApp",
+  "exportToWhatsApp": "Export to WhatsApp",
+  "updateAvailable": "Update Available",
+  "goToDownloadUpdate": "Please goto About->Update to install",
+  "installUpdate": "Install Update",
+  "exportTGToWA": "Export Telegram stickers to WhatsApp"
 }

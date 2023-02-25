@@ -3,7 +3,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:msb_app/src/export.dart';
 import 'package:msb_app/src/settings.dart';
+import 'package:msb_app/src/update.dart';
 import 'package:provider/provider.dart';
 import 'src/pages/home_export.dart';
 import 'src/pages/home_settings.dart';
@@ -30,10 +32,8 @@ final _router = GoRouter(
           GoRoute(
               path: 'done',
               builder: (BuildContext context, GoRouterState state) {
-                return ExportDonePage(
-                    sn: state.queryParams['sn'] ?? "",
-                    err: state.queryParams['err'] ?? "",
-                    res: state.queryParams['res'] ?? "");
+                final se = state.extra as StickerExport;
+                return ExportDonePage(se: se);
               }),
           GoRoute(
               path: ':sn',
@@ -75,15 +75,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    // TODO: implement initState
-    WidgetsBinding.instance?.addObserver(this);
-    _brightness = WidgetsBinding.instance?.window.platformBrightness;
+    initSettings();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    WidgetsBinding.instance.addObserver(this);
+    _brightness = WidgetsBinding.instance.window.platformBrightness;
     super.initState();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -91,29 +92,21 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangePlatformBrightness() {
     if (mounted) {
       setState(() {
-        _brightness = WidgetsBinding.instance?.window.platformBrightness;
+        _brightness = WidgetsBinding.instance.window.platformBrightness;
       });
     }
-
     super.didChangePlatformBrightness();
   }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    initSettings();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    // var brightness = SchedulerBinding.instance.window.platformBrightness;
     bool isDarkMode = _brightness == Brightness.dark;
-    // return Consumer<SettingsProvider>(
-    //   builder: (context, provider, child) {
     return CupertinoApp.router(
         theme: CupertinoThemeData(
             brightness: isDarkMode ? Brightness.dark : Brightness.light),
         routerConfig: _router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales);
-    // },
-    // );
   }
 }

@@ -19,6 +19,8 @@ import 'package:whatsapp_stickers_exporter/exceptions.dart';
 import 'package:whatsapp_stickers_exporter/whatsapp_stickers_exporter.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 
+import 'define.dart';
+
 /*
 type webappStickerObject struct {
     //Sticker index with offset of +1
@@ -39,6 +41,18 @@ type webappStickerObject struct {
     SSName string `json:"ssname"`
 }
 */
+
+class StickerResult {
+  final StickerExport? se;
+  final String? ssname;
+  final String? sstitle;
+  final Exception? err;
+  final int? packs;
+
+  const StickerResult(
+      {this.ssname, this.sstitle, this.err, this.packs, this.se});
+}
+
 class StickerSet {
   final String ssname;
   final String sstitle;
@@ -89,26 +103,46 @@ class StickerExportObject {
 }
 
 class StickerExport {
-  final Uri link;
-  late StickerSet wss;
+  final String sn;
+  final String qid;
+  final String hex;
+
+  StickerSet? wss;
+  final dio = Dio();
+  final ssFiles = <String>[];
+  final queue = <Future>[];
+
   late Directory docDir;
   late Directory ssDir;
-  late List<String> ssFiles;
+
+  Exception? err;
   List<List<List<String>>> stickerPacks = [
     [[]]
   ];
 
-  StickerExport({required this.link});
+  StickerExport({required this.sn, required this.qid, required this.hex});
 
-  Future<void> fetchStickerList(Uri uri) async {
-    var res = await Dio().getUri(uri);
+  Future<void> fetchStickerList() async {
+    final res = await Dio()
+        .get('$webappUrl/api/ss?sn=$sn&qid=$qid&hex=$hex&cmd=export');
     final Map<String, dynamic> wssMap = jsonDecode(res.data);
     wss = StickerSet.fromJson(wssMap);
   }
 
   Future<void> downloadStickers(
-      StickerSet wss, String targetDir, BuildContext context) async {
-    final dio = Dio();
+      String targetDir, ProgressProvider provider) async {
+    await dio.download(wss!.ssthumb, path.join(targetDir, "thumb.png"));
+    for (var s in wss!.ss) {
+      final f = "${s.id.toString().padLeft(3, "0")}.webp";
+      ssFiles.add(path.join(targetDir, f));
+      queue.add(dio
+          .download(s.surl, path.join(targetDir, f))
+          .then((res) => provider.progress++));
+    }
+    await Future.wait(queue);
+  }
+
+  Future<StickerExport> installFromRemote(ProgressProvider provider) async {
     dio.interceptors.add(RetryInterceptor(
       dio: dio,
       retries: 3,
@@ -119,83 +153,41 @@ class StickerExport {
       ],
     ));
 
-    ssFiles = <String>[];
-    final queue = <Future>[];
-
-    int i = 0;
-    await dio.download(wss.ssthumb, path.join(targetDir, "thumb.png"));
-    for (var s in wss.ss) {
-      //padLeft3
-      //001 002 003 ... 120 .webp
-      final f = "${s.id.toString().padLeft(3, "0")}.webp";
-      ssFiles.add(path.join(targetDir, f));
-      queue.add(dio.download(s.surl, path.join(targetDir, f)).then((res) =>
-        Provider.of<ProgressProvider>(context, listen: false).progress++
-      ));
-    }
-    await Future.wait(queue);
-  }
-
-  Future<void> installFromRemote(BuildContext context) async {
-    String err = "";
-    String? res;
-
     try {
-      await fetchStickerList(link);
-      Provider.of<ProgressProvider>(context, listen: false).total =
-          wss.ss.length;
-      // provider.total = wss.ss.length;
+      await fetchStickerList();
+      provider.title = wss!.sstitle;
+      provider.total = wss!.ss.length;
+
       docDir = await getApplicationDocumentsDirectory();
       ssDir = Directory(path.join(docDir.path, 'stickers'));
       if (ssDir.existsSync()) {
         await ssDir.delete(recursive: true);
-        log("purged stickers dir");
       } else {
         await ssDir.create(recursive: true);
       }
-    } catch (e) {
-      log(e.toString());
-      err = e.toString();
-      context.go("/export/done?err=${err}&res=${res}");
+
+      await downloadStickers(ssDir.path, provider);
+    } on Exception catch (e) {
+      err = e;
+      return this;
     }
 
-    // Retry download for 5 times max.
-    for (var i = 0; i < 5; i++) {
-      try {
-        await downloadStickers(wss, ssDir.path, context);
-        // if no Exception, break retry loop.
-        break;
-      } catch (e) {
-        if (i == 4) {
-          err = e.toString();
-        } else {
-          // wait and retry
-          await Future.delayed(const Duration(seconds: 2));
-          continue;
-        }
-      }
-    }
-
-    generateStickerPacks();
-    if (stickerPacks.length == 1) {
-      try {
+    try {
+      generateStickerPacks();
+      if (stickerPacks.length == 1) {
         sendToWhatsApp(0);
-        res = "0";
-      } catch (e) {
-        err = e.toString();
-        res = "-1";
       }
-    } else {
-      res = stickerPacks.length.toString();
+    } on Exception catch (e) {
+      err = e;
+      return this;
     }
-
-    context.go("/export/done?sn=${wss.ssname}&err=${err}&res=${res}");
+    return this;
   }
 
   void generateStickerPacks() {
     List<List<String>> stickers = [];
 
-    wss.ss.asMap().forEach((i, s) {
+    wss!.ss.asMap().forEach((i, s) {
       var ss = <String>[];
       ss.add(WhatsappStickerImage.fromFile(ssFiles[i]).path);
       ss.add(s.emoji);
@@ -207,19 +199,19 @@ class StickerExport {
 
   void sendToWhatsApp(int packIndex) async {
     final publisher = await getPublisher();
-    final identifier = "${wss.ssname}_${secHex(4)}";
+    final identifier = "${wss!.ssname}_${secHex(4)}";
     try {
       var handler = WhatsappStickersExporter();
       await handler.addStickerPack(
           identifier,
-          wss.sstitle,
+          wss!.sstitle,
           publisher,
           WhatsappStickerImage.fromFile(path.join(ssDir.path, "thumb.png"))
               .path,
           '',
           '',
           '',
-          wss.animated,
+          wss!.animated,
           stickerPacks[packIndex]);
     } catch (e) {
       rethrow;

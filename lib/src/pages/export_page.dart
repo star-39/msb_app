@@ -12,13 +12,19 @@ import '../define.dart';
 import '../util.dart';
 import '../export.dart';
 
-StickerExport? se;
-
 class ProgressProvider with ChangeNotifier {
+  String _title = "";
   int _progress = 0;
   int _total = 0;
+
+  String get title => _title;
   int get progress => _progress;
   int get total => _total;
+
+  set title(String value) {
+    _title = value;
+    notifyListeners();
+  }
 
   set progress(int value) {
     _progress = value;
@@ -45,18 +51,18 @@ class ExportStickerPage extends StatefulWidget {
 class _ExportStickerPage extends State<ExportStickerPage> {
   @override
   void initState() {
-    Provider.of<ProgressProvider>(context, listen: false).total = 0;
-    Provider.of<ProgressProvider>(context, listen: false).progress = 0;
-    final uri = _genExportLink();
-    se = StickerExport(link: uri);
-    se?.installFromRemote(context);
     super.initState();
-  }
-
-  Uri _genExportLink() {
-    var link =
-        '$webappUrl/api/ss?sn=${widget.sn}&qid=${widget.qid}&hex=${widget.hex}&cmd=export';
-    return Uri.parse(link);
+    // Refresh ProgressProvider.
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ProgressProvider>(context, listen: false).total = 0;
+      Provider.of<ProgressProvider>(context, listen: false).progress = 0;
+      Provider.of<ProgressProvider>(context, listen: false).title = "...";
+    });
+    //go to done page when done.
+    StickerExport(sn: widget.sn, qid: widget.qid, hex: widget.hex)
+        .installFromRemote(
+            Provider.of<ProgressProvider>(context, listen: false))
+        .then((value) => context.go("/export/done", extra: value));
   }
 
   @override
@@ -68,8 +74,8 @@ class _ExportStickerPage extends State<ExportStickerPage> {
       }
       log(progress.toString());
       return CupertinoPageScaffold(
-          navigationBar: const CupertinoNavigationBar(
-            middle: Text("Export to WhatsApp"),
+          navigationBar: CupertinoNavigationBar(
+            middle: Text(AppLocalizations.of(context)!.exportToWhatsApp),
           ),
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -81,9 +87,10 @@ class _ExportStickerPage extends State<ExportStickerPage> {
                   const SizedBox(height: 10),
                   LinearProgressIndicator(value: progress),
                   const SizedBox(height: 10),
-                  Text('sn: ${widget.sn}'),
-                  const SizedBox(height: 10),
-                  Text('qid: ${widget.qid}')
+                  Text(widget.sn,
+                      style: const TextStyle(fontStyle: FontStyle.italic)),
+                  const SizedBox(height: 5),
+                  Text(provider.title)
                 ])),
           ));
     });

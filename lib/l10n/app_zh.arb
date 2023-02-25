@@ -23,5 +23,10 @@
       }
     }
   },
-  "openWhatsApp": "打開 WhatsApp"
+  "openWhatsApp": "打開 WhatsApp",
+  "exportToWhatsApp": "匯出到 WhatsApp",
+  "updateAvailable": "有可用的更新",
+  "goToDownloadUpdate": "請前往 關於->更新 安裝",
+  "installUpdate": "安裝更新",
+  "exportTGToWA": "匯出Telegram貼圖到WhatsApp"
 }

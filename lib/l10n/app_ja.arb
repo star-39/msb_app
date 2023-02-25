@@ -23,5 +23,10 @@
       }
     }
   },
-  "openWhatsApp": "WhatsApp を起動"
+  "openWhatsApp": "WhatsApp を起動",
+  "exportToWhatsApp": "WhatsAppへ書き出す",
+  "updateAvailable": "利用可能なアップデートがあります",
+  "goToDownloadUpdate": "について -> アップデート　でインストール可能です",
+  "installUpdate": "アップデートをインストール",
+  "exportTGToWA": "TelegramのスタンプをWhatsAppへ書き出す"
 }

@@ -5,15 +5,21 @@ const KEY_PUBLISHER = "settings_publisher";
 const DEFAULT_PUBLISHER = "@moe_sticker_bot";
 var currentPublisher = "";
 
-
-
 class SettingsProvider with ChangeNotifier {
-  var _publisher = currentPublisher;
+  String _publisher = currentPublisher;
+  bool _updateAvailable = false;
+
   String get publisher => _publisher;
+  bool get updateAvailable => _updateAvailable;
 
   set publisher(String value) {
     _publisher = value;
     setPublisher(value);
+    notifyListeners();
+  }
+
+  set updateAvailable(bool value) {
+    _updateAvailable = value;
     notifyListeners();
   }
 }
