@@ -1,12 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const KEY_PUBLISHER = "settings_publisher";
 const DEFAULT_PUBLISHER = "@moe_sticker_bot";
-var currentPublisher = "";
+bool settingsInitialized = false;
 
 class SettingsProvider with ChangeNotifier {
-  String _publisher = currentPublisher;
+  String _publisher = DEFAULT_PUBLISHER;
   bool _updateAvailable = false;
 
   String get publisher => _publisher;
@@ -24,15 +26,19 @@ class SettingsProvider with ChangeNotifier {
   }
 }
 
-void initSettings() async {
+void initSettings(SettingsProvider provider) async {
+  if (settingsInitialized) {
+    return;
+  }
   final prefs = await SharedPreferences.getInstance();
   var publisher = prefs.getString(KEY_PUBLISHER);
   if (publisher == null) {
     prefs.setString(KEY_PUBLISHER, DEFAULT_PUBLISHER);
-    currentPublisher = DEFAULT_PUBLISHER;
+    provider.publisher = DEFAULT_PUBLISHER;
   } else {
-    currentPublisher = publisher;
+    provider.publisher = publisher;
   }
+  settingsInitialized = true;
 }
 
 Future<String> getPublisher() async {
@@ -41,7 +47,6 @@ Future<String> getPublisher() async {
 }
 
 void setPublisher(String s) async {
-  // currentPublisher = s;
   final prefs = await SharedPreferences.getInstance();
   prefs.setString(KEY_PUBLISHER, s);
 }

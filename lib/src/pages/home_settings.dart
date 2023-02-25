@@ -75,7 +75,7 @@ class _SettingsPage extends State<SettingsPage> {
 }
 
 class PublisherPage extends StatefulWidget {
-  const PublisherPage({Key? key});
+  const PublisherPage({Key? key}) : super(key: key);
 
   @override
   State<PublisherPage> createState() => _PublisherPage();
@@ -90,18 +90,17 @@ class _PublisherPage extends State<PublisherPage> {
     super.dispose();
   }
 
-  void onComplete(value) {
-    // final _settings = Provider.of<SettingsProvider>(context);
+  void onComplete(provider) {
     setState(() {
-      value.publisher = _publisherController.text;
+      provider.publisher = _publisherController.text;
     });
     context.pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SettingsProvider>(builder: (context, value, child) {
-      _publisherController = TextEditingController(text: value.publisher);
+    return Consumer<SettingsProvider>(builder: (context, provider, child) {
+      _publisherController = TextEditingController(text: provider.publisher);
 
       return CupertinoPageScaffold(
           backgroundColor: CupertinoColors.secondarySystemBackground,
@@ -115,7 +114,7 @@ class _PublisherPage extends State<PublisherPage> {
                 autofocus: true,
                 controller: _publisherController,
                 autocorrect: false,
-                onEditingComplete: () => onComplete(value),
+                onEditingComplete: () => onComplete(provider),
               )
             ],
           ));
