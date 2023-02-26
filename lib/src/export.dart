@@ -108,7 +108,7 @@ class StickerExport {
     [[]]
   ];
 
-  StickerExport(this.sn, this.qid, this.hex) {
+  StickerExport({required this.sn, required this.qid, required this.hex}) {
     dio.interceptors.add(RetryInterceptor(
       dio: dio,
       retries: 3,
