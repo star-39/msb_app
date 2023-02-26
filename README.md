@@ -45,11 +45,9 @@ Make sure you have set-up JDK 11 environment, you can verify with `flutter docto
 Please edit `android/key.properties` to sign the app, then pass following arguments:
 
 ```sh
-flutter build ipa \
+flutter build apk \
  --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp \
- --dart-define=MSB_BOT_NAME=moe_sticker_bot \
- -P=storePassword=your_pass \
- -P=keyPassword=your_pass
+ --dart-define=MSB_BOT_NAME=moe_sticker_bot 
 ```
 
 ## License

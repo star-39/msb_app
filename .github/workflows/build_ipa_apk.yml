@@ -24,9 +24,9 @@ jobs:
 
       - name: Build APK
         run: |
-          mkdir -p android/app/key
-          echo ${{ secrets.MSB_ANDROID_KEYSTORE_JKS }} | base64 --decode > android/app/key/msb_app.jks
-          flutter build apk -P=storePassword=${{ secrets.MSB_ANDROID_KEY0_PASSWORD }} -P=keyPassword=${{ secrets.MSB_ANDROID_KEY0_PASSWORD }} \
+          echo ${{ secrets.MSB_ANDROID_KEY_PROPERTIES }} | base64 --decode > android/key.properties
+          echo ${{ secrets.MSB_ANDROID_KEYSTORE_JKS }} | base64 --decode > android/app/msb_app.jks
+          flutter build apk \
             --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp --dart-define=MSB_BOT_NAME=moe_sticker_bot \
             --target-platform android-arm,android-arm64
           mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/msb_app.apk

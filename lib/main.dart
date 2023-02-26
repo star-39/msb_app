@@ -97,6 +97,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     initSettings(Provider.of<SettingsProvider>(context, listen: false));
     bool isDarkMode = _brightness == Brightness.dark;
     return CupertinoApp.router(
+        debugShowCheckedModeBanner: false,
         theme: CupertinoThemeData(brightness: isDarkMode ? Brightness.dark : Brightness.light),
         routerConfig: _router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
