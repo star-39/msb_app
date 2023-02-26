@@ -5,6 +5,9 @@ __This app is part of the [moe-sticker-bot](https://github.com/star-39/moe-stick
 
 __這個app是 [moe-sticker-bot](https://github.com/star-39/moe-sticker-bot) 套件的一部分.__
 
+
+## Features/功能
+
 * Export sticker set from Telegram to WhatsApp.
 
 * Supports iOS and Android.
@@ -23,9 +26,33 @@ This app utilizes [whatsapp_stickers_exporter](https://pub.dev/packages/whatsapp
 
 
 ## Build
+
+Install Flutter: https://docs.flutter.dev/get-started/install
+
+### iOS
+macOS 10.15+ is recommended.
+
+Please open `ios/Runner.xcworkspace` in Xcode and sign the app, then:
+```sh
+flutter build ipa \
+ --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp \
+ --dart-define=MSB_BOT_NAME=moe_sticker_bot
 ```
-flutter build
+
+### Android
+Make sure you have set-up JDK 11 environment, you can verify with `flutter doctor`
+
+Please edit `android/key.properties` to sign the app, then pass following arguments:
+
+```sh
+flutter build ipa \
+ --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp \
+ --dart-define=MSB_BOT_NAME=moe_sticker_bot \
+ -P=storePassword=your_pass \
+ -P=keyPassword=your_pass
 ```
 
 ## License
 GPL v3
+
+![image](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)
