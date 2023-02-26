@@ -34,7 +34,7 @@ dependencies:
 
   flutter_localizations: # Add this line
     sdk: flutter         # Add this line
-  intl: ^0.17.0 # Add this line
+  intl: any # Add this line
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -44,17 +44,17 @@ dependencies:
 #    path: ./plugins/whatsapp_stickers
   whatsapp_stickers_exporter: ^1.0.0
   provider: ^6.0.5
-  url_launcher: ^6.1.7
-  go_router: ^6.0.1
+  url_launcher: ^6.1.10
+  go_router: ^6.2.0
   dio: ^5.0.1
-  path_provider: ^2.0.11
-  shared_preferences: ^2.0.16
+  path_provider: ^2.0.13
+  shared_preferences: ^2.0.18
   settings_ui: ^2.0.2
   quiver: ^3.2.1
   dio_smart_retry: ^5.0.0
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.11.0
+  flutter_launcher_icons: ^0.12.0
   flutter_test:
     sdk: flutter
 
