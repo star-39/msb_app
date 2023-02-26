@@ -49,8 +49,7 @@ class StickerResult {
   final Exception? err;
   final int? packs;
 
-  const StickerResult(
-      {this.ssname, this.sstitle, this.err, this.packs, this.se});
+  const StickerResult({this.ssname, this.sstitle, this.err, this.packs, this.se});
 }
 
 class StickerSet {
@@ -61,11 +60,7 @@ class StickerSet {
   final List<StickerObject> ss;
 
   const StickerSet(
-      {required this.ssname,
-      required this.sstitle,
-      required this.ssthumb,
-      required this.animated,
-      required this.ss});
+      {required this.ssname, required this.sstitle, required this.ssthumb, required this.animated, required this.ss});
 
   factory StickerSet.fromJson(Map<String, dynamic> json) {
     return StickerSet(
@@ -73,9 +68,7 @@ class StickerSet {
         sstitle: json['sstitle'] as String,
         ssthumb: json['ssthumb'] as String,
         animated: json['animated'] as bool,
-        ss: json['ss']
-            .map<StickerObject>((data) => StickerObject.fromJson(data))
-            .toList());
+        ss: json['ss'].map<StickerObject>((data) => StickerObject.fromJson(data)).toList());
   }
 }
 
@@ -83,14 +76,10 @@ class StickerObject {
   final int id;
   final String emoji;
   final String surl;
-  const StickerObject(
-      {required this.id, required this.emoji, required this.surl});
+  const StickerObject({required this.id, required this.emoji, required this.surl});
 
   factory StickerObject.fromJson(Map<String, dynamic> json) {
-    return StickerObject(
-        id: json['id'] as int,
-        emoji: json['emoji'] as String,
-        surl: json['surl'] as String);
+    return StickerObject(id: json['id'] as int, emoji: json['emoji'] as String, surl: json['surl'] as String);
   }
 }
 
@@ -98,8 +87,7 @@ class StickerExportObject {
   final String file;
   final String surl;
   final String emoji;
-  const StickerExportObject(
-      {required this.file, required this.surl, required this.emoji});
+  const StickerExportObject({required this.file, required this.surl, required this.emoji});
 }
 
 class StickerExport {
@@ -107,7 +95,6 @@ class StickerExport {
   final String qid;
   final String hex;
 
-  StickerSet? wss;
   final dio = Dio();
   final ssFiles = <String>[];
   final queue = <Future>[];
@@ -115,44 +102,42 @@ class StickerExport {
   late Directory docDir;
   late Directory ssDir;
 
+  StickerSet? wss;
   Exception? err;
   List<List<List<String>>> stickerPacks = [
     [[]]
   ];
 
-  StickerExport({required this.sn, required this.qid, required this.hex});
-
-  Future<void> fetchStickerList() async {
-    final res = await Dio()
-        .get('$webappUrl/api/ss?sn=$sn&qid=$qid&hex=$hex&cmd=export');
-    final Map<String, dynamic> wssMap = jsonDecode(res.data);
-    wss = StickerSet.fromJson(wssMap);
-  }
-
-  Future<void> downloadStickers(
-      String targetDir, ProgressProvider provider) async {
-    await dio.download(wss!.ssthumb, path.join(targetDir, "thumb.png"));
-    for (var s in wss!.ss) {
-      final f = "${s.id.toString().padLeft(3, "0")}.webp";
-      ssFiles.add(path.join(targetDir, f));
-      queue.add(dio
-          .download(s.surl, path.join(targetDir, f))
-          .then((res) => provider.progress++));
-    }
-    await Future.wait(queue);
-  }
-
-  Future<StickerExport> installFromRemote(ProgressProvider provider) async {
+  StickerExport(this.sn, this.qid, this.hex) {
     dio.interceptors.add(RetryInterceptor(
       dio: dio,
       retries: 3,
+      retryableExtraStatuses: {status404NotFound},
       retryDelays: const [
         Duration(seconds: 2),
         Duration(seconds: 3),
         Duration(seconds: 3),
       ],
     ));
+  }
 
+  Future<void> fetchStickerList() async {
+    final res = await Dio().get('$webappUrl/api/ss?sn=$sn&qid=$qid&hex=$hex&cmd=export');
+    final Map<String, dynamic> wssMap = jsonDecode(res.data);
+    wss = StickerSet.fromJson(wssMap);
+  }
+
+  Future<void> downloadStickers(String targetDir, ProgressProvider provider) async {
+    await dio.download(wss!.ssthumb, path.join(targetDir, "thumb.png"));
+    for (var s in wss!.ss) {
+      final f = "${s.id.toString().padLeft(3, "0")}.webp";
+      ssFiles.add(path.join(targetDir, f));
+      queue.add(dio.download(s.surl, path.join(targetDir, f)).then((res) => provider.progress++));
+    }
+    await Future.wait(queue);
+  }
+
+  Future<StickerExport> installFromRemote(ProgressProvider provider) async {
     try {
       await fetchStickerList();
       provider.title = wss!.sstitle;
@@ -206,8 +191,7 @@ class StickerExport {
           identifier,
           wss!.sstitle,
           publisher,
-          WhatsappStickerImage.fromFile(path.join(ssDir.path, "thumb.png"))
-              .path,
+          WhatsappStickerImage.fromFile(path.join(ssDir.path, "thumb.png")).path,
           '',
           '',
           '',

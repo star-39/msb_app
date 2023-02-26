@@ -27,41 +27,33 @@ void main() {
 final _router = GoRouter(
   initialLocation: '/export',
   routes: [
-    GoRoute(
-        path: '/export',
-        builder: (context, state) => const MyHomePage(),
-        routes: <RouteBase>[
-          GoRoute(
-              path: 'done',
-              builder: (BuildContext context, GoRouterState state) {
-                final se = state.extra as StickerExport;
-                return ExportDonePage(se: se);
-              }),
-          GoRoute(
-              path: ':sn',
-              builder: (BuildContext context, GoRouterState state) {
-                return ExportStickerPage(
-                    sn: state.params['sn'] ?? "",
-                    qid: state.queryParams['qid'] ?? "",
-                    hex: state.queryParams['hex'] ?? "");
-              }),
-        ]),
-    GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsPage(),
-        routes: <RouteBase>[
-          GoRoute(
-            path: 'publisher',
-            builder: (context, state) {
-              return const PublisherPage();
-            },
-          ),
-          GoRoute(
-              path: 'about',
-              builder: (BuildContext context, GoRouterState state) {
-                return const AboutPage();
-              }),
-        ]),
+    GoRoute(path: '/export', builder: (context, state) => const MyHomePage(), routes: <RouteBase>[
+      GoRoute(
+          path: 'done',
+          builder: (BuildContext context, GoRouterState state) {
+            final se = state.extra as StickerExport;
+            return ExportDonePage(se: se);
+          }),
+      GoRoute(
+          path: ':sn',
+          builder: (BuildContext context, GoRouterState state) {
+            return ExportStickerPage(
+                sn: state.params['sn'] ?? "", qid: state.queryParams['qid'] ?? "", hex: state.queryParams['hex'] ?? "");
+          }),
+    ]),
+    GoRoute(path: '/settings', builder: (context, state) => const SettingsPage(), routes: <RouteBase>[
+      GoRoute(
+        path: 'publisher',
+        builder: (context, state) {
+          return const PublisherPage();
+        },
+      ),
+      GoRoute(
+          path: 'about',
+          builder: (BuildContext context, GoRouterState state) {
+            return const AboutPage();
+          }),
+    ]),
   ],
 );
 
@@ -105,8 +97,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     initSettings(Provider.of<SettingsProvider>(context, listen: false));
     bool isDarkMode = _brightness == Brightness.dark;
     return CupertinoApp.router(
-        theme: CupertinoThemeData(
-            brightness: isDarkMode ? Brightness.dark : Brightness.light),
+        theme: CupertinoThemeData(brightness: isDarkMode ? Brightness.dark : Brightness.light),
         routerConfig: _router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales);
