@@ -40,10 +40,19 @@ flutter build ipa \
 ```
 
 ### Android
-Make sure you have set-up JDK 11 environment, you can verify with `flutter doctor`
+Make sure you have set-up JDK environment, you can verify with `flutter doctor`
 
-Please edit `android/key.properties` to sign the app, then pass following arguments:
+Create a file named android/key.properties that contains a reference to your keystore:
+```
+storePassword=<password from previous step>
+keyPassword=<password from previous step>
+keyAlias=upload
+storeFile=<location of the key store file, such as /Users/<user name>/upload-keystore.jks>
+```
 
+For details, please refer to https://docs.flutter.dev/deployment/android#create-an-upload-keystore
+
+Build:
 ```sh
 flutter build apk \
  --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp \
