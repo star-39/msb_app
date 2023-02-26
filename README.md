@@ -21,7 +21,10 @@ This app utilizes [whatsapp_stickers_exporter](https://pub.dev/packages/whatsapp
 
 這個app使用 [whatsapp_stickers_exporter](https://pub.dev/packages/whatsapp_stickers_exporter)。 其也是 [moe-sticker-bot](https://github.com/star-39/moe-sticker-bot) 套件的一部分, 專案位於: https://github.com/star-39/whatsapp_stickers_exporter.
 
-![スクリーンショット 2023-01-21 午前12 27 44](https://user-images.githubusercontent.com/75669297/213735948-487bdcb0-15d1-4565-b55a-97ee98390225.png)
+<!-- ![スクリーンショット 2023-01-21 午前12 27 44](https://user-images.githubusercontent.com/75669297/213735948-487bdcb0-15d1-4565-b55a-97ee98390225.png) -->
+
+
+![スクリーンショット 2023-02-26 午後2 14 13](https://user-images.githubusercontent.com/75669297/221397295-8a6aee6a-3fa4-4129-a2f3-f5f4fe04bf40.png)
 
 
 
