@@ -24,7 +24,8 @@ This app utilizes [whatsapp_stickers_exporter](https://pub.dev/packages/whatsapp
 <!-- ![スクリーンショット 2023-01-21 午前12 27 44](https://user-images.githubusercontent.com/75669297/213735948-487bdcb0-15d1-4565-b55a-97ee98390225.png) -->
 
 
-![スクリーンショット 2023-02-26 午後2 14 13](https://user-images.githubusercontent.com/75669297/221397295-8a6aee6a-3fa4-4129-a2f3-f5f4fe04bf40.png)
+
+<image src="https://user-images.githubusercontent.com/75669297/221397295-8a6aee6a-3fa4-4129-a2f3-f5f4fe04bf40.png" width="300"/>  <image src="https://user-images.githubusercontent.com/75669297/221521875-9cabbe7d-ec91-4380-b126-cae5fd575d39.png" width="250"/>
 
 
 
@@ -37,7 +38,7 @@ macOS 10.15+ is recommended.
 
 Please open `ios/Runner.xcworkspace` in Xcode and sign the app, then:
 ```sh
-flutter build ipa \
+flutter build ios \
  --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp \
  --dart-define=MSB_BOT_NAME=moe_sticker_bot
 ```
