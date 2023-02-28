@@ -102,6 +102,7 @@ class StickerExport {
   late Directory docDir;
   late Directory ssDir;
 
+  int amount = 0;
   StickerSet? wss;
   Exception? err;
   List<List<List<String>>> stickerPacks = [
@@ -178,6 +179,7 @@ class StickerExport {
         ss.add(WhatsappStickerImage.fromFile(ssFiles[i]).path);
         ss.add(s.emoji);
         stickers.add(ss);
+        amount++;
       }
     });
 

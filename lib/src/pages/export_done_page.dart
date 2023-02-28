@@ -12,7 +12,7 @@ class ExportDonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> children;
+    List<Widget> children = [];
 
     void onPackBtnPressed(int i) {
       se.sendToWhatsApp(i);
@@ -35,20 +35,29 @@ class ExportDonePage extends StatelessWidget {
         Text(se.err.toString())
       ];
     } else {
+      if (se.amount < se.ssFiles.length) {
+        children.add(Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(CupertinoIcons.info_circle, color: CupertinoColors.activeBlue),
+            Text("${se.ssFiles.length - se.amount} sticker ignored due to size limit.")
+          ],
+        ));
+      }
       if (se.stickerPacks.length == 1) {
-        children = <Widget>[
+        children.addAll(<Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [Icon(CupertinoIcons.check_mark_circled, color: CupertinoColors.activeGreen), Text("OK")],
           )
-        ];
+        ]);
       } else {
         final entries = genPacksButtons(se.stickerPacks.length);
-        children = <Widget>[
+        children.addAll(<Widget>[
           const Icon(CupertinoIcons.info_circle, color: CupertinoColors.activeBlue),
           Flexible(child: Text(AppLocalizations.of(context)!.chooseSplit, textAlign: TextAlign.center)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: entries)
-        ];
+        ]);
       }
     }
 
