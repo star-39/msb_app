@@ -22,8 +22,7 @@ class ExportDonePage extends StatelessWidget {
       var entries = <Widget>[];
       for (int i = 0; i < total; i++) {
         entries.add(CupertinoButton(
-            child: Text('${AppLocalizations.of(context)!.pack} ${i + 1}'),
-            onPressed: () => onPackBtnPressed(i)));
+            child: Text('${AppLocalizations.of(context)!.pack} ${i + 1}'), onPressed: () => onPackBtnPressed(i)));
         entries.add(const SizedBox(width: 5));
       }
       return entries;
@@ -31,8 +30,7 @@ class ExportDonePage extends StatelessWidget {
 
     if (se.err != null) {
       children = <Widget>[
-        const Icon(CupertinoIcons.xmark_circle,
-            color: CupertinoColors.destructiveRed),
+        const Icon(CupertinoIcons.xmark_circle, color: CupertinoColors.destructiveRed),
         const SizedBox(height: 10),
         Text(se.err.toString())
       ];
@@ -41,21 +39,14 @@ class ExportDonePage extends StatelessWidget {
         children = <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(CupertinoIcons.check_mark_circled,
-                  color: CupertinoColors.activeGreen),
-              Text("OK")
-            ],
+            children: const [Icon(CupertinoIcons.check_mark_circled, color: CupertinoColors.activeGreen), Text("OK")],
           )
         ];
       } else {
         final entries = genPacksButtons(se.stickerPacks.length);
         children = <Widget>[
-          const Icon(CupertinoIcons.question_circle,
-              color: CupertinoColors.activeBlue),
-          Flexible(
-              child: Text(AppLocalizations.of(context)!.chooseSplit,
-                  textAlign: TextAlign.center)),
+          const Icon(CupertinoIcons.info_circle, color: CupertinoColors.activeBlue),
+          Flexible(child: Text(AppLocalizations.of(context)!.chooseSplit, textAlign: TextAlign.center)),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: entries)
         ];
       }
@@ -94,8 +85,6 @@ class ExportDonePage extends StatelessWidget {
         ),
         child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Center(
-                child: Column(
-                    mainAxisSize: MainAxisSize.min, children: children))));
+            child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: children))));
   }
 }

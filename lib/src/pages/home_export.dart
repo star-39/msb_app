@@ -19,12 +19,8 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
         tabBar: CupertinoTabBar(items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: const Icon(CupertinoIcons.share),
-              label: AppLocalizations.of(context)!.export),
-          BottomNavigationBarItem(
-              icon: const Icon(CupertinoIcons.settings),
-              label: AppLocalizations.of(context)!.about)
+          BottomNavigationBarItem(icon: const Icon(CupertinoIcons.share), label: AppLocalizations.of(context)!.export),
+          BottomNavigationBarItem(icon: const Icon(CupertinoIcons.settings), label: AppLocalizations.of(context)!.about)
         ]),
         tabBuilder: (context, index) {
           late final CupertinoTabView returnValue;
@@ -53,9 +49,7 @@ class ExportPage extends StatelessWidget {
     //On iOS, build is occasionally called, which will result in multiple alerts,
     //only show once.
     //It is actually a good thing if a user never terminate the app.
-    Future.microtask(() =>
-        checkUpdate(Provider.of<SettingsProvider>(context, listen: false))
-            .then((value) {
+    Future.microtask(() => checkUpdate(Provider.of<SettingsProvider>(context, listen: false)).then((value) {
           if (value && !updateDialogShowed) {
             updateDialogShowed = true;
             showCupertinoDialog(
@@ -63,8 +57,7 @@ class ExportPage extends StatelessWidget {
                 builder: (context) {
                   return CupertinoAlertDialog(
                     title: Text(AppLocalizations.of(context)!.updateAvailable),
-                    content:
-                        Text(AppLocalizations.of(context)!.goToDownloadUpdate),
+                    content: Text(AppLocalizations.of(context)!.goToDownloadUpdate),
                     actions: [
                       CupertinoDialogAction(
                         child: const Text('OK'),

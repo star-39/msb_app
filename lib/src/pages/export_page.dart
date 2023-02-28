@@ -41,8 +41,7 @@ class ExportStickerPage extends StatefulWidget {
   final String sn;
   final String qid;
   final String hex;
-  const ExportStickerPage(
-      {super.key, required this.sn, required this.qid, required this.hex});
+  const ExportStickerPage({super.key, required this.sn, required this.qid, required this.hex});
 
   @override
   State<ExportStickerPage> createState() => _ExportStickerPage();
@@ -60,8 +59,7 @@ class _ExportStickerPage extends State<ExportStickerPage> {
     });
     //go to done page when done.
     StickerExport(sn: widget.sn, qid: widget.qid, hex: widget.hex)
-        .installFromRemote(
-            Provider.of<ProgressProvider>(context, listen: false))
+        .installFromRemote(Provider.of<ProgressProvider>(context, listen: false))
         .then((value) => context.go("/export/done", extra: value));
   }
 
@@ -80,18 +78,15 @@ class _ExportStickerPage extends State<ExportStickerPage> {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  const CupertinoActivityIndicator(),
-                  const SizedBox(height: 10),
-                  LinearProgressIndicator(value: progress),
-                  const SizedBox(height: 10),
-                  Text(widget.sn,
-                      style: const TextStyle(fontStyle: FontStyle.italic)),
-                  const SizedBox(height: 5),
-                  Text(provider.title)
-                ])),
+                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const CupertinoActivityIndicator(),
+              const SizedBox(height: 10),
+              LinearProgressIndicator(value: progress),
+              const SizedBox(height: 10),
+              Text(widget.sn, style: const TextStyle(fontStyle: FontStyle.italic)),
+              const SizedBox(height: 5),
+              Text(provider.title)
+            ])),
           ));
     });
   }
