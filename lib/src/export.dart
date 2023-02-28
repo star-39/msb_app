@@ -175,7 +175,7 @@ class StickerExport {
 
     wss!.ss.asMap().forEach((i, s) {
       var ss = <String>[];
-      if (File(ssFiles[i]).lengthSync() < 512 * 1024) {
+      if (File(ssFiles[i]).lengthSync() < 500 * 1024) {
         ss.add(WhatsappStickerImage.fromFile(ssFiles[i]).path);
         ss.add(s.emoji);
         stickers.add(ss);
