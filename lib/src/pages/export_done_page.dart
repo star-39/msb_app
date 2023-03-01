@@ -40,7 +40,8 @@ class ExportDonePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(CupertinoIcons.info_circle, color: CupertinoColors.activeBlue),
-            Text("${se.ssFiles.length - se.amount} sticker ignored due to size limit.")
+            const SizedBox(height: 5),
+            Text(AppLocalizations.of(context)!.stickerIgnored(se.ssFiles.length - se.amount))
           ],
         ));
       }

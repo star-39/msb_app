@@ -28,5 +28,14 @@
   "updateAvailable": "有可用的更新",
   "goToDownloadUpdate": "請前往 關於->更新 安裝",
   "installUpdate": "安裝更新",
-  "exportTGToWA": "匯出Telegram貼圖到WhatsApp"
+  "exportTGToWA": "匯出Telegram貼圖到WhatsApp",
+  "stickerIgnored": "{amount}張貼圖因尺寸限制被略過.",
+  "@stickerIgnored": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  }
 }

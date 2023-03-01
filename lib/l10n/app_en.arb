@@ -28,5 +28,14 @@
   "updateAvailable": "Update Available",
   "goToDownloadUpdate": "Please goto About->Update to install",
   "installUpdate": "Install Update",
-  "exportTGToWA": "Export Telegram stickers to WhatsApp"
+  "exportTGToWA": "Export Telegram stickers to WhatsApp",
+  "stickerIgnored": "{amount, plural, =1{1 sticker} other{{amount} stickers}} ignored due to size limit.",
+  "@stickerIgnored": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  }
 }

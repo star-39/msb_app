@@ -28,5 +28,14 @@
   "updateAvailable": "利用可能なアップデートがあります",
   "goToDownloadUpdate": "について -> アップデート　でインストール可能です",
   "installUpdate": "アップデートをインストール",
-  "exportTGToWA": "TelegramのスタンプをWhatsAppへ書き出す"
+  "exportTGToWA": "TelegramのスタンプをWhatsAppへ書き出す",
+  "stickerIgnored": "{amount}枚のスタンプはサイズ制限により略されました",
+  "@stickerIgnored": {
+    "placeholders": {
+      "amount": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  }
 }
