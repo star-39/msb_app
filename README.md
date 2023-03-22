@@ -17,11 +17,35 @@ __這個app是 [moe-sticker-bot](https://github.com/star-39/moe-sticker-bot) 套
 * 支援iOS和Android。
 
 ### For Developers/開發者資訊
-This app utilizes [whatsapp_stickers_exporter](https://pub.dev/packages/whatsapp_stickers_exporter), which is aslo part of the [moe-sticker-bot](https://github.com/star-39/moe-sticker-bot) suite, and is available here: https://github.com/star-39/whatsapp_stickers_exporter.
+This app utilizes https://pub.dev/packages/whatsapp_stickers_exporter
 
-這個app使用 [whatsapp_stickers_exporter](https://pub.dev/packages/whatsapp_stickers_exporter)。 其也是 [moe-sticker-bot](https://github.com/star-39/moe-sticker-bot) 套件的一部分, 專案位於: https://github.com/star-39/whatsapp_stickers_exporter.
+這個app使用 https://pub.dev/packages/whatsapp_stickers_exporter
 
-<!-- ![スクリーンショット 2023-01-21 午前12 27 44](https://user-images.githubusercontent.com/75669297/213735948-487bdcb0-15d1-4565-b55a-97ee98390225.png) -->
+
+## Install/安裝
+
+### Android
+Download latest APK and install:
+
+下載最新的APK然後安裝：
+
+https://github.com/star-39/msb_app/releases/latest/download/msb_app.apk
+
+### iPhone
+Requires AltStore, you can [search Google for how to install AltStore](https://www.google.com/search?q=how+to+install+altstore).
+
+Once you get it installed, download latest IPA on your iphone and open it with AltStore.
+
+需要安裝AltStore, 您可以[搜尋Google如何安裝AltStore](https://www.google.com/search?q=altstore教學)。
+
+安裝完成後， 在iPhone上下載最新的IPA檔案， 然後用AltStore打開。
+
+IPA:
+
+https://github.com/star-39/msb_app/releases/latest/download/msb_app.ipa
+
+
+## Screenshots
 
 <image src="https://user-images.githubusercontent.com/75669297/221397295-8a6aee6a-3fa4-4129-a2f3-f5f4fe04bf40.png" width="300"/>  <image src="https://user-images.githubusercontent.com/75669297/221521875-9cabbe7d-ec91-4380-b126-cae5fd575d39.png" width="250"/>
 
