@@ -36,7 +36,8 @@ class ExportStickerPage extends StatefulWidget {
   final String sn;
   final String qid;
   final String hex;
-  const ExportStickerPage({super.key, required this.sn, required this.qid, required this.hex});
+  final String ws;
+  const ExportStickerPage({super.key, required this.sn, required this.qid, required this.hex, required this.ws});
 
   @override
   State<ExportStickerPage> createState() => _ExportStickerPage();
@@ -53,7 +54,7 @@ class _ExportStickerPage extends State<ExportStickerPage> {
       Provider.of<ProgressProvider>(context, listen: false).title = "...";
     });
     //go to done page when done.
-    StickerExport(sn: widget.sn, qid: widget.qid, hex: widget.hex)
+    StickerExport(sn: widget.sn, qid: widget.qid, hex: widget.hex, ws: widget.ws)
         .installFromRemote(Provider.of<ProgressProvider>(context, listen: false))
         .then((value) => context.go("/export/done", extra: value));
   }

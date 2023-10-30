@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:msb_app/src/define.dart';
 import 'package:msb_app/src/export.dart';
 import 'package:msb_app/src/settings.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,8 @@ final _router = GoRouter(
           path: ':sn',
           builder: (BuildContext context, GoRouterState state) {
             return ExportStickerPage(
-                sn: state.pathParameters['sn'] ?? "", qid: state.uri.queryParameters['qid'] ?? "", hex: state.uri.queryParameters['hex'] ?? "");
+                sn: state.pathParameters['sn'] ?? "", qid: state.uri.queryParameters['qid'] ?? "", hex: state.uri.queryParameters['hex'] ?? "",
+                ws: state.uri.queryParameters['ws'] ?? defaultWebappSite);
           }),
     ]),
     GoRoute(path: '/settings', builder: (context, state) => const SettingsPage(), routes: <RouteBase>[
