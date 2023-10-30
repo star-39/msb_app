@@ -2,14 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:msb_app/src/settings.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:provider/provider.dart';
-import '../define.dart';
-import '../util.dart';
 import '../export.dart';
 
 class ProgressProvider with ChangeNotifier {

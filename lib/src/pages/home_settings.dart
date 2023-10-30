@@ -1,18 +1,15 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:msb_app/src/define.dart';
 import 'package:msb_app/src/settings.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../util.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key});
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPage();
@@ -75,7 +72,7 @@ class _SettingsPage extends State<SettingsPage> {
 }
 
 class PublisherPage extends StatefulWidget {
-  const PublisherPage({Key? key}) : super(key: key);
+  const PublisherPage({super.key});
 
   @override
   State<PublisherPage> createState() => _PublisherPage();
@@ -123,7 +120,7 @@ class _PublisherPage extends State<PublisherPage> {
 }
 
 class AboutPage extends StatelessWidget {
-  const AboutPage({Key? key}) : super(key: key);
+  const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -131,8 +128,8 @@ class AboutPage extends StatelessWidget {
         navigationBar: CupertinoNavigationBar(
           middle: Text(AppLocalizations.of(context)!.about),
         ),
-        child: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: const [
+        child: const Center(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
           Text("Telegram @$botName"),
           SizedBox(height: 10),
           Text("Released under the GPL v3 License."),

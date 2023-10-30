@@ -6,14 +6,12 @@ import 'package:provider/provider.dart';
 import '../define.dart';
 import '../update.dart';
 import '../util.dart';
-import '../export.dart';
 import './home_settings.dart';
-import './export_page.dart';
 
 var updateDialogShowed = false;
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,7 @@ class MyHomePage extends StatelessWidget {
 }
 
 class ExportPage extends StatelessWidget {
-  const ExportPage({Key? key}) : super(key: key);
+  const ExportPage({super.key});
 
   @override
   Widget build(BuildContext context) {

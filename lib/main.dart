@@ -1,13 +1,10 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:msb_app/src/export.dart';
 import 'package:msb_app/src/settings.dart';
-import 'package:msb_app/src/update.dart';
 import 'package:provider/provider.dart';
 import 'src/pages/home_export.dart';
 import 'src/pages/home_settings.dart';
@@ -38,7 +35,7 @@ final _router = GoRouter(
           path: ':sn',
           builder: (BuildContext context, GoRouterState state) {
             return ExportStickerPage(
-                sn: state.params['sn'] ?? "", qid: state.queryParams['qid'] ?? "", hex: state.queryParams['hex'] ?? "");
+                sn: state.pathParameters['sn'] ?? "", qid: state.uri.queryParameters['qid'] ?? "", hex: state.uri.queryParameters['hex'] ?? "");
           }),
     ]),
     GoRoute(path: '/settings', builder: (context, state) => const SettingsPage(), routes: <RouteBase>[
@@ -58,7 +55,7 @@ final _router = GoRouter(
 );
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();

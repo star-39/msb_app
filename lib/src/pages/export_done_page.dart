@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:msb_app/src/export.dart';
-import 'export_page.dart';
 import 'package:whatsapp_stickers_exporter/whatsapp_stickers_exporter.dart';
 
 class ExportDonePage extends StatelessWidget {
@@ -47,9 +46,9 @@ class ExportDonePage extends StatelessWidget {
       }
       if (se.stickerPacks.length == 1) {
         children.addAll(<Widget>[
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [Icon(CupertinoIcons.check_mark_circled, color: CupertinoColors.activeGreen), Text("OK")],
+            children: [Icon(CupertinoIcons.check_mark_circled, color: CupertinoColors.activeGreen), Text("OK")],
           )
         ]);
       } else {
