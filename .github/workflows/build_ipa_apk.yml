@@ -27,7 +27,7 @@ jobs:
           echo ${{ secrets.MSB_ANDROID_KEY_PROPERTIES }} | base64 --decode > android/key.properties
           echo ${{ secrets.MSB_ANDROID_KEYSTORE_JKS }} | base64 --decode > android/app/msb_app.jks
           flutter build apk \
-            --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp --dart-define=MSB_BOT_NAME=moe_sticker_bot \
+            --dart-define=MSB_BOT_NAME=moe_sticker_bot \
             --target-platform android-arm,android-arm64
           mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/msb_app.apk
 
@@ -52,7 +52,7 @@ jobs:
       - name: Build IPA
         run: |
           flutter build ios --no-codesign \
-            --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp --dart-define=MSB_BOT_NAME=moe_sticker_bot
+            --dart-define=MSB_BOT_NAME=moe_sticker_bot
           sh scripts/strip_payload.sh build/ios/iphoneos/Runner.app
           cd build/ios/iphoneos/
           mkdir Payload
