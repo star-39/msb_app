@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     WidgetsBinding.instance.addObserver(this);
-    _brightness = MediaQuery.of(context).platformBrightness;
+    _brightness = WidgetsBinding.instance.window.platformBrightness;
     super.initState();
   }
 
@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangePlatformBrightness() {
     if (mounted) {
       setState(() {
-        _brightness = MediaQuery.of(context).platformBrightness;
+        _brightness = WidgetsBinding.instance.window.platformBrightness;
       });
     }
     super.didChangePlatformBrightness();

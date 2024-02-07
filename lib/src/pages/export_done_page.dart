@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:msb_app/src/export.dart';
@@ -28,10 +29,15 @@ class ExportDonePage extends StatelessWidget {
     }
 
     if (se.err != null) {
+      var errText = "";
+      if (se.err is DioException) {
+        errText += "Response Code:${(se.err as DioException).response!.statusCode}\n";
+        errText += "Request URL:${(se.err as DioException).requestOptions.uri}\n";
+      }
       children = <Widget>[
         const Icon(CupertinoIcons.xmark_circle, color: CupertinoColors.destructiveRed),
         const SizedBox(height: 10),
-        Text(se.err.toString())
+        Text(errText)
       ];
     } else {
       if (se.amount < se.ssFiles.length) {

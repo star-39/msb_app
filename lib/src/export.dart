@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:msb_app/src/pages/export_page.dart';
@@ -13,7 +14,6 @@ import 'package:quiver/iterables.dart';
 import 'package:whatsapp_stickers_exporter/whatsapp_stickers_exporter.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 
-import 'define.dart';
 
 /*
 type webappStickerObject struct {
@@ -118,7 +118,7 @@ class StickerExport {
   }
 
   Future<void> fetchStickerList() async {
-    final res = await Dio().get('https://$dn/webpp/api/ss?sn=$sn&qid=$qid&hex=$hex&cmd=export');
+    final res = await Dio().get('https://$dn/webapp/api/ss?sn=$sn&qid=$qid&hex=$hex&cmd=export');
     final Map<String, dynamic> wssMap = jsonDecode(res.data);
     wss = StickerSet.fromJson(wssMap);
   }
@@ -148,6 +148,9 @@ class StickerExport {
       }
 
       await downloadStickers(ssDir.path, provider);
+    } on DioException catch (dioException) {
+      err = dioException;
+      return this;
     } on Exception catch (e) {
       err = e;
       return this;
