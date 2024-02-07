@@ -3,6 +3,7 @@ name: Build iOS IPA and Android APK workflow
 on: push
 
 jobs:
+  secrets: inherit
   apk:
     name: Build Android APK
     runs-on: ubuntu-latest
