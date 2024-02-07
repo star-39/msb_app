@@ -37,7 +37,7 @@ final _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return ExportStickerPage(
                 sn: state.pathParameters['sn'] ?? "", qid: state.uri.queryParameters['qid'] ?? "", hex: state.uri.queryParameters['hex'] ?? "",
-                dn: state.uri.queryParameters['dn'] ?? defaultWebappSite);
+                dn: state.uri.queryParameters['dn'] ?? defaultWebappDomainName);
           }),
     ]),
     GoRoute(path: '/settings', builder: (context, state) => const SettingsPage(), routes: <RouteBase>[
