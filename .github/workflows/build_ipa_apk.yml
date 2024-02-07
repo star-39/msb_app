@@ -23,9 +23,12 @@ jobs:
           channel: "stable"
 
       - name: Build APK
+        env: 
+          MSB_ANDROID_KEY_PROPERTIES: ${{ secrets.MSB_ANDROID_KEY_PROPERTIES }}
+          MSB_ANDROID_KEYSTORE_JKS: ${{ secrets.MSB_ANDROID_KEYSTORE_JKS }}
         run: |
-          echo ${{ secrets.MSB_ANDROID_KEY_PROPERTIES }} | base64 --decode > android/key.properties
-          echo ${{ secrets.MSB_ANDROID_KEYSTORE_JKS }} | base64 --decode > android/app/msb_app.jks
+          echo $MSB_ANDROID_KEY_PROPERTIES | base64 --decode > android/key.properties
+          echo $MSB_ANDROID_KEYSTORE_JKS | base64 --decode > android/app/msb_app.jks
           flutter build apk \
             --dart-define=MSB_BOT_NAME=moe_sticker_bot \
             --target-platform android-arm,android-arm64
