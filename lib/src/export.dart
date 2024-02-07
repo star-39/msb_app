@@ -88,7 +88,7 @@ class StickerExport {
   final String sn;
   final String qid;
   final String hex;
-  final String ws;
+  final String dn;
 
   final dio = Dio();
   final ssFiles = <String>[];
@@ -104,7 +104,7 @@ class StickerExport {
     [[]]
   ];
 
-  StickerExport({required this.sn, required this.qid, required this.hex, required this.ws}) {
+  StickerExport({required this.sn, required this.qid, required this.hex, required this.dn}) {
     dio.interceptors.add(RetryInterceptor(
       dio: dio,
       retries: 3,
@@ -118,7 +118,7 @@ class StickerExport {
   }
 
   Future<void> fetchStickerList() async {
-    final res = await Dio().get('https://$ws/api/ss?sn=$sn&qid=$qid&hex=$hex&cmd=export');
+    final res = await Dio().get('https://$dn/webpp/api/ss?sn=$sn&qid=$qid&hex=$hex&cmd=export');
     final Map<String, dynamic> wssMap = jsonDecode(res.data);
     wss = StickerSet.fromJson(wssMap);
   }

@@ -37,7 +37,7 @@ final _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return ExportStickerPage(
                 sn: state.pathParameters['sn'] ?? "", qid: state.uri.queryParameters['qid'] ?? "", hex: state.uri.queryParameters['hex'] ?? "",
-                ws: state.uri.queryParameters['ws'] ?? defaultWebappSite);
+                dn: state.uri.queryParameters['dn'] ?? defaultWebappSite);
           }),
     ]),
     GoRoute(path: '/settings', builder: (context, state) => const SettingsPage(), routes: <RouteBase>[
@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     WidgetsBinding.instance.addObserver(this);
-    _brightness = WidgetsBinding.instance.window.platformBrightness;
+    _brightness = MediaQuery.of(context).platformBrightness;
     super.initState();
   }
 
@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void didChangePlatformBrightness() {
     if (mounted) {
       setState(() {
-        _brightness = WidgetsBinding.instance.window.platformBrightness;
+        _brightness = MediaQuery.of(context).platformBrightness;
       });
     }
     super.didChangePlatformBrightness();
