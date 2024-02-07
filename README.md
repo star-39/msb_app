@@ -62,9 +62,7 @@ macOS 10.15+ is recommended.
 
 Please open `ios/Runner.xcworkspace` in Xcode and sign the app, then:
 ```sh
-flutter build ios \
- --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp \
- --dart-define=MSB_BOT_NAME=moe_sticker_bot
+flutter build ios --dart-define=MSB_BOT_NAME=moe_sticker_bot
 ```
 
 ### Android
@@ -82,10 +80,23 @@ For details, please refer to https://docs.flutter.dev/deployment/android#create-
 
 Build:
 ```sh
-flutter build apk \
- --dart-define=MSB_WEBAPP_URL=https://msb.cloudns.asia/webapp \
- --dart-define=MSB_BOT_NAME=moe_sticker_bot 
+flutter build apk --dart-define=MSB_BOT_NAME=moe_sticker_bot 
 ```
+
+## Development
+Use `msb://` URI to invoke msb_app.
+
+### Routes
+#### `/export`
+Params:
+
+* `sn`: Sticker set name.
+* `qid`: Query ID.
+* `hex`: Hex verification code.
+* `ws`: Target WebApp website. 
+
+#### `/settings`
+#### `/about`
 
 ## License
 GPL v3

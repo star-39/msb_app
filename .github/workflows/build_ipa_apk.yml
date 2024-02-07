@@ -39,7 +39,7 @@ jobs:
 
   ipa:
     name: Build iOS IPA
-    runs-on: macos-12
+    runs-on: macos-14
     steps:
       - name: Checkout
         uses: actions/checkout@v3
