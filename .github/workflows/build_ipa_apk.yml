@@ -29,7 +29,9 @@ jobs:
         run: |
           echo $MSB_ANDROID_KEY_PROPERTIES | base64 --decode > android/key.properties
           echo $MSB_ANDROID_KEYSTORE_JKS | base64 --decode > android/app/msb_app.jks
-          ls -al android/app/
+          ls -l android/
+          cat android/key.properties
+          ls -l android/app/
           flutter build apk \
             --dart-define=MSB_BOT_NAME=moe_sticker_bot \
             --target-platform android-arm,android-arm64
