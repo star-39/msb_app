@@ -6,7 +6,6 @@ jobs:
   apk:
     name: Build Android APK
     runs-on: ubuntu-latest
-    secrets: inherit
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -24,6 +23,7 @@ jobs:
           channel: "stable"
 
       - name: Build APK
+        secrets: inherit
         env: 
           MSB_ANDROID_KEY_PROPERTIES: ${{ secrets.MSB_ANDROID_KEY_PROPERTIES }}
           MSB_ANDROID_KEYSTORE_JKS: ${{ secrets.MSB_ANDROID_KEYSTORE_JKS }}
